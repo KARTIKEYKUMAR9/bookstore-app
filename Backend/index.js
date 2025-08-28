@@ -10,11 +10,26 @@ import userRoute from "./route/user.route.js";
 const app = express();
 app.use(express.json());
 
+
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173", // local frontend
+  "https://bookstore-app-frontend-v5pw.onrender.com", // deployed frontend
+];
 // app.use(cors());
-app.use(cors({
-  origin: process.env.CLIENT_URL || "https://bookstore-app-frontend-v5pw.onrender.com",   // ✅ matches .env
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow requests like Postman
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 
 
 const PORT = process.env.PORT || 4001;
