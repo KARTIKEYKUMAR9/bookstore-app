@@ -13,8 +13,9 @@ app.use(express.json());
 
 // CORS configuration
 const allowedOrigins = [
-  "http://localhost:5173", // local frontend
-  "https://bookstore-app-frontend-v5pw.onrender.com", // deployed frontend
+  "http://localhost:5173",
+  process.env.CLIENT_URL,// local frontend
+  // deployed frontend
 ];
 // app.use(cors());
 app.use(
