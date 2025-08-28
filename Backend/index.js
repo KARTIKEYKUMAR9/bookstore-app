@@ -12,16 +12,12 @@ app.use(express.json());
 
 
 // CORS configuration
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.CLIENT_URL,// local frontend
-  // deployed frontend
-];
+const allowedOrigins = [process.env.CLIENT_URL];
 // app.use(cors());
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow requests like Postman
+      if (!origin) return callback(null, true); // allow Postman or server-to-server requests
       if (allowedOrigins.indexOf(origin) === -1) {
         const msg = "The CORS policy for this site does not allow access from the specified Origin.";
         return callback(new Error(msg), false);
