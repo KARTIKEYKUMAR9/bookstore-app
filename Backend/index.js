@@ -11,23 +11,12 @@ const app = express();
 app.use(express.json());
 
 
-// CORS configuration
-const allowedOrigins = [process.env.CLIENT_URL];
-// app.use(cors());
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow Postman or server-to-server requests
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = "The CORS policy for this site does not allow access from the specified Origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-    credentials: true,
+    origin: process.env.CLIENT_URL, // your frontend URL from .env
+    credentials: true,              // allow cookies, auth headers
   })
 );
-
 
 const PORT = process.env.PORT || 4001;
 // const URI = process.env.MongoDBURI;
